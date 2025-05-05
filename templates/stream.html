@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmoFace - Live Stream</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-smile-beam"></i> EmoFace</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/upload">Upload Image</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/camera">Use Camera</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/stream">Live Stream</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Stream Section -->
+    <section class="section-padding mt-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Live Stream Emotion Detection</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div id="nowFeelingCard" class="now-feeling-card mb-4 text-center" style="display:none;"></div>
+                    <div class="stream-card">
+                        <div class="video-container">
+                            <video id="video" autoplay playsinline class="camera-feed" style="background: #000; width: 1600px; height: 900px;"></video>
+                            <canvas id="overlay" class="emotion-overlay"></canvas>
+                        </div>
+                        <div class="stream-controls mt-4 text-center">
+                            <button id="startStream" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-play"></i> Start Stream
+                            </button>
+                            <button id="stopStream" class="btn btn-danger btn-lg" disabled>
+                                <i class="fas fa-stop"></i> Stop Stream
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="emotion-stats mt-5">
+                        <h3 class="mb-4">Real-time Emotions</h3>
+                        <div id="emotionStats" class="row">
+                            <div class="col-md-12">
+                                <ul id="emotionList" class="emotion-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const overlay = document.getElementById('overlay');
+        const startButton = document.getElementById('startStream');
+        const stopButton = document.getElementById('stopStream');
+        const currentEmotion = document.getElementById('currentEmotion');
+        const emotionList = document.getElementById('emotionList');
+        let stream = null;
+        let isStreaming = false;
+        let streamInterval = null;
+
+        // Map emotion to emoji
+        const EMOJI_MAP = {
+            'Angry': '😠',
+            'Disgust': '🤢',
+            'Fear': '😱',
+            'Happy': '😊',
+            'Sad': '😢',
+            'Surprise': '😲',
+            'Neutral': '😐'
+        };
+        const nowFeelingCard = document.getElementById('nowFeelingCard');
+
+        startButton.addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                isStreaming = true;
+                startEmotionDetection();
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                alert('Could not access the camera. Please make sure you have granted camera permissions.');
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                clearInterval(streamInterval);
+                isStreaming = false;
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                currentEmotion.textContent = 'Stream stopped';
+                emotionList.innerHTML = '';
+            }
+        });
+
+        function startEmotionDetection() {
+            const canvas = document.createElement('canvas');
+            streamInterval = setInterval(() => {
+                if (!isStreaming) return;
+
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+
+                canvas.toBlob(blob => {
+                    const formData = new FormData();
+                    formData.append('image', blob, 'stream.jpg');
+
+                    fetch('/stream/analyze', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        updateEmotionDisplay(data.emotions);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }, 'image/jpeg');
+            }, 1000); // Update every second
+        }
+
+        function updateEmotionDisplay(emotions) {
+            // Find dominant emotion
+            let dominant = null;
+            let maxProb = -1;
+            Object.entries(emotions).forEach(([emotion, prob]) => {
+                if (prob > maxProb) {
+                    maxProb = prob;
+                    dominant = emotion;
+                }
+            });
+
+            // Show Now Feeling card
+            const percent = (emotions[dominant] * 100).toFixed(2);
+            nowFeelingCard.innerHTML = `
+                <span style="font-size:2.2rem;">${EMOJI_MAP[dominant] || ''}</span><br>
+                <span style="font-size:1.5rem;font-weight:700;">${dominant}</span>
+                <span style="font-size:1.2rem;font-weight:500;color:#1976d2;"> (${percent}%)</span>
+            `;
+            nowFeelingCard.style.display = 'block';
+
+            emotionList.innerHTML = '';
+            // Render each emotion as a bar, only dominant has %
+            Object.entries(emotions).forEach(([emotion, probability]) => {
+                const percent = (probability * 100).toFixed(2);
+                const isDominant = emotion === dominant;
+                const li = document.createElement('li');
+                li.className = 'emotion-bar-row';
+                li.innerHTML = `
+                    <div class="emotion-label-simple">${emotion}:</div>
+                    <div class="emotion-bar-pro-bg">
+                        <div class="emotion-bar-pro-fill${isDominant ? ' dominant' : ''}" style="width: ${percent}%;">
+                            <span class='emotion-bar-pro-text'>${percent}%</span>
+                        </div>
+                    </div>
+                `;
+                emotionList.appendChild(li);
+            });
+        }
+
+        // Add styles for Now Feeling card and bars
+        const style = document.createElement('style');
+        style.innerHTML = `
+        .now-feeling-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+            padding: 1.5rem 2.5rem 1.2rem 2.5rem;
+            margin: 0 auto 1.5rem auto;
+            max-width: 400px;
+            display: inline-block;
+        }
+        .emotion-bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .emotion-label-simple {
+            width: 90px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #222;
+            margin-right: 12px;
+        }
+        .emotion-bar-pro-bg {
+            background: #e9ecef;
+            border-radius: 6px;
+            width: 400px;
+            height: 18px;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+        }
+        .emotion-bar-pro-fill {
+            background: #e0e7ef;
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s, background 0.3s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: #666;
+        }
+        .emotion-bar-pro-fill.dominant {
+            background: #1976d2;
+        }
+        .emotion-bar-pro-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 8px;
+            white-space: nowrap;
+            color: #fff;
+            text-shadow: 0 0 2px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 900px) {
+            .emotion-bar-pro-bg { width: 200px; }
+        }
+        @media (max-width: 600px) {
+            .now-feeling-card { padding: 1rem 0.5rem; max-width: 98vw; }
+            .emotion-label-simple { font-size: 1rem; width: 70px; }
+            .emotion-bar-pro-bg { width: 100px; height: 14px; }
+            .emotion-bar-pro-text { font-size: 0.9rem; }
+        }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

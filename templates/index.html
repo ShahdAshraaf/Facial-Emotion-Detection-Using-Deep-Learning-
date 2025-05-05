@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmoFace - Emotion Recognition Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-smile-beam"></i> EmoFace</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#why-emoface">Why EmoFace</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#what-is">What is EmoFace</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
+                    <!-- Sign In button removed -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <header class="hero-section text-white">
+        <!-- Local Video Background (only for hero section) -->
+        <div class="video-background" style="position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:-1;">
+            <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;">
+                <source src="{{ url_for('static', filename='videos/HAPPY.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <!-- Hero Content Box -->
+        <div class="hero-content" style="position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-start;width:100%;">
+            <div style="background:rgba(0,0,0,0.55);padding:2.5rem 2rem 2.5rem 2.5rem;border-radius:1.5rem;max-width:400px;text-align:left;margin-left:3vw;box-shadow:none;outline:none;">
+                <h1 style="font-weight:bold;font-size:2.2rem;margin-bottom:1rem;">Welcome to Emoface Family</h1>
+                <p style="font-size:1.1rem;margin-bottom:1.5rem;">
+                    EmoFace is an advanced emotion recognition platform using AI to analyze facial expressions in real-time.
+                    Our mission is to make emotional intelligence accessible to everyone through innovative solutions.
+                </p>
+                <a href="#products" class="btn btn-primary btn-lg" style="font-weight:bold;">Learn More</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Why EmoFace Section -->
+    <section id="why-emoface" class="section-padding">
+        <div class="container">
+            <h2 class="text-center mb-5">Why EmoFace?</h2>
+            <div class="feature-grid">
+                <div class="feature-row">
+                    <div class="feature-box text-center">
+                        <i class="fas fa-heartbeat feature-img"></i>
+                        <div>Healthcare<br>
+                            <small>Mental health support, Therapy support</small>
+                        </div>
+                    </div>
+                    <div class="feature-box text-center">
+                        <i class="fas fa-graduation-cap feature-img"></i>
+                        <div>Education<br>
+                            <small>E-Learning (Analyzing Students' Emotions)</small>
+                        </div>
+                    </div>
+                    <div class="feature-box text-center">
+                        <i class="fas fa-headset feature-img"></i>
+                        <div>Customer Service<br>
+                            <small>Analyzing user satisfaction</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-box text-center">
+                        <i class="fas fa-shield-alt feature-img"></i>
+                        <div>Security<br>
+                            <small>Fraud Detection (ATM security), Smart Homes (Emotion Aware Alarm)</small>
+                        </div>
+                    </div>
+                    <div class="feature-box text-center">
+                        <i class="fas fa-gamepad feature-img"></i>
+                        <div>Games<br>
+                            <small>Enhance games by making them more interactive and adaptive</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is EmoFace Section -->
+    <section id="what-is" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">What is EmoFace?</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="image-placeholder text-center">
+                        <img src="https://dce0qyjkutl4h.cloudfront.net/wp-content/uploads/2023/07/emotion-recognition-using-Azure-Cognitive.png" 
+                             alt="Emotion Recognition Using Azure Cognitive" 
+                             style="max-width: 100%; width: 100%; height: auto; border-radius: 16px;">
+                    </div>                                       
+                </div>
+                <div class="col-lg-6">
+                    <p class="lead">EmoFace is an advanced emotion recognition platform that uses state-of-the-art AI to analyze facial expressions in real-time. <br>
+                        Our technology can detect and classify seven basic emotions: <br>
+                        Happiness 😊<br>
+                        Sadness 😢<br>
+                        Anger 😠<br>
+                        Fear 😱<br>
+                        Surprise 😲<br>
+                        Disgust 🤢<br>
+                        Neutral 😐<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works Section -->
+    <section id="how-it-works" class="section-padding">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #222;">How it works</h2>
+            <div class="row justify-content-center align-items-start how-it-works-row">
+                <div class="col-md-3 text-center how-step">
+                    <div class="how-card how-card-outline">
+                        <img src="https://static.vecteezy.com/system/resources/previews/035/868/900/original/illustration-of-upload-vector.jpg" alt="Upload" class="how-img">
+                        <h4>Upload</h4>
+                        <ul>
+                            <li>Drag and drop video/Image with human characters</li>
+                            <li>Open Live stream</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center how-step">
+                    <div class="how-card how-card-outline">
+                        <img src="https://dtmvamahs40ux.cloudfront.net/gl-academy/course/course-203-biometric-person-identification-facial-recognition-concept-futuristic-low-polygonal-human-face_67515-466.jpg" alt="Process" class="how-img">
+                        <h4>Process</h4>
+                        <ul>
+                            <li>Our AI processes the video</li>
+                            <li>Our ML model recognizes faces and detects emotions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center how-step">
+                    <div class="how-card how-card-outline">
+                        <img src="https://user-images.githubusercontent.com/94167271/211168986-30826bd7-6dfd-47d1-9bd8-42c03fdf3629.png" alt="Review" class="how-img">
+                        <h4>Review & Analysis</h4>
+                        <ul>
+                            <li>Provides an accurate emotion analysis with AI</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center how-step">
+                    <div class="how-card how-card-outline">
+                        <img src="https://www.ottawapublichealth.ca/en/rotatingimages/navTab04/reports-1065.png" alt="Report" class="how-img">
+                        <h4>Report</h4>
+                        <ul>
+                            <li>Get a visual representation of the emotions expressed by the actors in the video</li>
+                            <li>View overall emotion analysis of your video and emotions of individual actors in each frame</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="how-connectors d-none d-md-block">
+                <div class="how-line"></div>
+                <div class="how-dot" style="left: 12.5%;"></div>
+                <div class="how-dot" style="left: 37.5%;"></div>
+                <div class="how-dot" style="left: 62.5%;"></div>
+                <div class="how-dot" style="left: 87.5%;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-padding">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Features</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Real-time Analysis</h3>
+                        <p>Instant emotion detection with high accuracy</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Privacy First</h3>
+                        <p>Secure processing with data protection</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-chart-pie"></i>
+                        <h3>Detailed Analytics</h3>
+                        <p>Comprehensive emotion analysis reports</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Products</h2>
+            <div class="row justify-content-center g-4"> <!-- Added g-4 for gutter spacing -->
+                <div class="col-md-4 d-flex align-items-stretch">
+                    <!-- Removed shadow/border classes, will handle in CSS -->
+                    <!-- New wrapper -->
+                    <div class="product-card text-center p-4 w-100">
+                        <div class="product-icon-wrapper mb-3">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <h3 class="mb-2">Upload Image</h3>
+                        <p class="mb-3 text-muted">Analyze emotions from your uploaded images with detailed results.<br>
+                        <b>Click</b> on Try Now!! to get the most unique experience.
+                        </p>
+                        <!-- Instructions removed -->
+                        <div class="mt-auto w-100">
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#uploadInstructionsModal">
+                                Try Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-stretch">
+                    <div class="product-card product-card-highlighted text-center p-4 w-100">
+                        <div class="product-icon-wrapper mb-3">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3 class="mb-2">Use Camera</h3>
+                        <p class="mb-3 text-muted">Experience real-time emotion detection using your device's camera.<br>
+                            <b>Click</b> on Try Now!! to get the most unique experience.
+                        </p>
+                        <!-- Instructions removed -->
+                        <div class="mt-auto w-100">
+                             <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#cameraInstructionsModal">
+                                 Try Now
+                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-stretch">
+                    <div class="product-card text-center p-4 w-100">
+                        <div class="product-icon-wrapper mb-3">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="mb-2">Live Stream</h3>
+                        <p class="mb-3 text-muted">Continuous emotion analysis during your live streaming sessions.
+                            
+                        </p>
+                        <!-- Instructions removed -->
+                        <div class="mt-auto w-100">
+                            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#streamInstructionsModal">
+                                Try Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <h2 class="text-center mb-5">About Me</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <p class="lead">Hi, and welcome!<br>
+                        I'm passionate about using deep learning to build smarter, more human-centered technologies.<br>
+                        One of my recent projects is Facial Emotion Detection, where I developed a system that can recognize emotions like happiness, sadness, anger, and fear from facial expressions.<br>
+                        Using Convolutional Neural Networks (CNNs), I trained the model to understand subtle differences in faces, making it useful for real-world applications like healthcare, education, and entertainment.
+                        I'm excited about how AI can help machines better understand people — and this project is a step towards more empathetic technology!. <br>
+                        My mission is to make emotional intelligence accessible to everyone through innovative solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="section-padding">
+        <div class="container">
+            <h2 class="text-center mb-5">Feedback</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="rating">★★★★★</div>
+                        <p>"EmoFace has revolutionized how we conduct our market research. The real-time emotion analysis is incredibly accurate!"</p>
+                        <div class="user">- Sarah Johnson, Market Research Analyst</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="rating">★★★★★</div>
+                        <p>"The live streaming feature has helped us better understand our audience's engagement during virtual events."</p>
+                        <div class="user">- Michael Chen, Event Manager</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="rating">★★★★★</div>
+                        <p>"Easy to use and incredibly insightful. EmoFace has become an essential tool for our UX research."</p>
+                        <div class="user">- Emma Davis, UX Researcher</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <small class="text-muted">*Some reviews may be simulated for demonstration purposes</small>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Quick Links</h3>
+                    <h4 class="mt-4">Our Products</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/upload">Upload Image</a></li>
+                        <li><a href="/camera">Use Camera</a></li>
+                        <li><a href="/stream">Live Stream</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h3>Connect With Us</h3>
+                    <a href="https://www.linkedin.com/" class="social-link">
+                        <i class="fab fa-linkedin"></i> Connect with us on LinkedIn
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>&copy; 2025 EmoFace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Instruction Modals -->
+    <!-- Upload Image Modal -->
+    <div class="modal fade" id="uploadInstructionsModal" tabindex="-1" aria-labelledby="uploadInstructionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadInstructionsModalLabel"><i class="fas fa-upload me-2"></i>How to Upload Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Click "Try Now"</div>
+                                Navigate to the Upload Image page.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Choose Photo</div>
+                                Drag & drop or browse to select your image file (JPG, JPEG, PNG).
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">See the Magic</div>
+                                Click "Detect Emotions" and wait for the analysis.
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="/upload" class="btn btn-primary">Proceed to Upload</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use Camera Modal -->
+    <div class="modal fade" id="cameraInstructionsModal" tabindex="-1" aria-labelledby="cameraInstructionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cameraInstructionsModalLabel"><i class="fas fa-camera me-2"></i>How to Use Camera</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                     <ol class="list-group list-group-numbered">
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Click "Try Now"</div>
+                                Navigate to the Use Camera page.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Allow Access</div>
+                                Grant permission for the browser to use your camera when prompted.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Watch Live</div>
+                                See real-time emotion detection overlaid on your camera feed.
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="/camera" class="btn btn-primary">Proceed to Camera</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Stream Modal -->
+    <div class="modal fade" id="streamInstructionsModal" tabindex="-1" aria-labelledby="streamInstructionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="streamInstructionsModalLabel"><i class="fas fa-video me-2"></i>How to Live Stream</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                     <ol class="list-group list-group-numbered">
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Click "Try Now"</div>
+                                Navigate to the Live Stream analysis page.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Start Stream</div>
+                                Input your stream source or follow on-page setup instructions.
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Get Feedback</div>
+                                View continuous emotion analysis from your stream.
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="/stream" class="btn btn-primary">Proceed to Stream</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Instruction Modals -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
